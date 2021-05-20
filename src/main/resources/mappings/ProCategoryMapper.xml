@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ied.easy.mapper.ProCategoryMapper">
+    <sql id="field">
+        a.id,
+        a.epc_name,
+        a.epc_parent_id,
+        a.level,
+        a.path
+    </sql>
+    <sql id="join">
+
+    </sql>
+
+    <select id="findPage" parameterType="ied.easy.bean.Page" resultType="ied.easy.bean.ProCategory">
+          SELECT <include refid="field"/>
+          FROM easybuy_product_category a
+          <include refid="join"/>
+          <where>
+
+          </where>
+          <if test="offset != null">
+              limit #{offset},#{pageSize}
+          </if>
+    </select>
+
+    <select id="count" parameterType="ied.easy.bean.ProCategory" resultType="Integer">
+          SELECT COUNT(*)
+          FROM easybuy_product_category a
+          <include refid="join"/>
+          <where>
+              
+          </where>
+    </select>
+    
+    <select id="get" parameterType="Integer" resultType="ied.easy.bean.ProCategory">
+          SELECT <include refid="field"/>
+          FROM easybuy_product_category a
+          <include refid="join"/>
+          WHERE id = #{id}
+    </select>
+
+    <delete id="delete" parameterType="Integer">
+        DELETE FROM easybuy_product_category WHERE id = #{id}
+    </delete>
+
+    <update id="update" parameterType="ied.easy.bean.ProCategory">
+        UPDATE easybuy_product_category
+        <set>
+            <if test="epc_name">
+                epc_name = #{epc_name},
+            </if>
+            <if test="epc_parent_id">
+                epc_parent_id = #{epc_parent_id},
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <insert id="insert" parameterType="ied.easy.bean.ProCategory">
+        INSERT  INTO easybuy_product_category
+        (epc_name,epc_parent_id)
+        VALUES
+        (#{epc_name},#{epc_parent_id})
+    </insert>
+
+</mapper>

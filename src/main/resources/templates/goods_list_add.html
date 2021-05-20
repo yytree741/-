@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <title>添加商品</title>
+    <link rel="stylesheet" href="../static/layui/css/layui.css" th:href="@{/layui/css/layui.css}"/>
+    <style>
+        .container{
+            //background-color: #1f87dc;
+            align-content: center;
+            width: 600px;
+            height: auto;
+            margin-left: 250px;
+        }
+    </style>
+
+</head>
+<body>
+    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+        <legend>添加商品</legend>
+    </fieldset>
+    <div class="container">
+        <form class="layui-form" th:action="@{/product/add}" method="post" role="form">
+            <div class="layui-form-item">
+                <label class="layui-form-label">商品名称(*)</label>
+                <div class="layui-input-block">
+                    <input type="text" name="ep_name" lay-verify="title" autocomplete="off" placeholder="请输入商品名称" class="layui-input"/>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">描述</label>
+                <div class="layui-input-block">
+                    <input type="text" name="ep_description" lay-verify="required" placeholder="请用简单语言描述商品信息" autocomplete="off" class="layui-input"/>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">所属分类</label>
+                <div class="layui-input-block">
+                    <select name="proCategory.id" lay-filter="aihao">
+                        <option value=""></option>
+                        <option value="1">图书音像</option>
+                        <option value="2">百货</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">价格(*)</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="ep_price" lay-verify="title" autocomplete="off" placeholder="请输入商品价格(单位元)" class="layui-input"/>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">库存(*)</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="ep_stock" lay-verify="title" autocomplete="off" placeholder="请输入商品库存数量" class="layui-input"/>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">商品图片(*)</label>
+                <div class="layui-input-inline">
+                    <input type="hidden" name="ep_file_name" id="ep_file_name"/>
+                    <input type="file" name="file" lay-ext="jpg|png|gif" lay-type="file" lay-title="请上传一张图片吧亲" class="layui-upload-file"/>
+                </div>
+            </div>
+            <div class="layui-form-item" style="margin-left: 50px;">
+                <button class="layui-btn" style="margin-left: 66px" type="submit" lay-filter="add_goods">添加</button>
+            </div>
+
+        </form>
+    </div>
+</body>
+<script src="../static/layui/layui.js" th:src="@{/layui/layui.js}" charset="utf-8"></script>
+<script>
+
+    layui.use(['jquery', 'layer'], function(){
+        var $ = layui.jquery //重点处
+            ,layer = layui.layer;
+        layui.use('upload', function(){
+            layui.upload({
+                url: '/product/upload/images',
+                ext: 'jpg|png|gif',
+                before: function(input){
+                    console.log('图片上传中。。。')
+                }
+                ,success: function(res){
+                    console.log(res); //上传成功返回值，必须为json格式
+                    layer.msg(res.msg);
+                    $('#ep_file_name').val(res.file);
+                }
+            });
+        });
+
+    });
+
+    layui.use('form', function(){
+        var form = layui.form();
+    });
+
+
+
+
+
+
+    //监听特定的自定义事件。你可以把它看作是一个ID选择器
+    form.on('submit(queryData)', function(data) {
+        each();
+        return false;
+    });
+
+
+</script>
+</html>

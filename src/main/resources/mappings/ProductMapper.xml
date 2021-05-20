@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ied.easy.mapper.ProductMapper">
+    <sql id="field">
+          a.id,
+          a.ep_name,
+          a.ep_description,
+          a.ep_price,
+          a.ep_stock,
+          a.epc_id as "proCategory.id",
+          a.epc_child_id,
+          a.ep_file_name,
+          b.epc_name as "proCategory.epc_name"
+    </sql>
+    <sql id="join">
+          inner join easybuy_product_category b on a.epc_id = b.id
+    </sql>
+
+    <select id="findPage" parameterType="ied.easy.bean.Page" resultType="ied.easy.bean.Product">
+        SELECT <include refid="field"/>
+        FROM easybuy_product a
+        <include refid="join"/>
+        <where>
+            <!-- b.path LIKE #{o.param} or b.id = #{o.param} -->
+        </where>
+        <if test="offset != null">
+            limit #{offset},#{pageSize}
+        </if>
+    </select>
+
+    <select id="count" parameterType="ied.easy.bean.Product" resultType="Integer">
+        SELECT COUNT(*)
+        FROM easybuy_product a
+        <include refid="join"/>
+        <where>
+
+        </where>
+    </select>
+
+    <select id="get" parameterType="Integer" resultType="ied.easy.bean.Product">
+        SELECT <include refid="field"/>
+        FROM easybuy_product a
+        <include refid="join"/>
+        WHERE a.id = #{id}
+    </select>
+
+    <delete id="delete" parameterType="Integer">
+        delete from  easybuy_product where id=#{id}
+    </delete>
+
+    <!--更新产品信息-->
+    <update id="update" parameterType="ied.easy.bean.Product">
+      update easybuy_product
+      <set>
+          <if test="ep_name !=null  and ep_name !=''">
+              ep_name=#{ep_name},
+          </if>
+          <if test="ep_description !=null and ep_description !=''">
+              ep_description=#{ep_description},
+          </if>
+          <if test="ep_price !=null and ep_price !=''">
+              ep_price=#{ep_price},
+          </if>
+          <if test="ep_stock !=null and ep_stock !=''">
+              ep_stock=#{ep_stock},
+          </if>
+          <if test="proCategory!=null and proCategory.id != null">
+              epc_id=2,
+          </if>
+          <if test="epc_child_id !=null and epc_child_id !=''">
+              epc_child_id=#{epc_child_id},
+          </if>
+          <if test="ep_file_name !=null and ep_file_name!=''">
+              ep_file_name=#{ep_file_name}
+          </if>
+      </set>
+        where id=#{id}
+    </update>
+
+    <!--添加产品信息-->
+    <insert id="add" parameterType="ied.easy.bean.Product">
+        insert into easybuy_product
+        (ep_name,ep_description,ep_price,ep_stock,epc_id,epc_child_id,ep_file_name)
+        values (#{ep_name},#{ep_description},#{ep_price},#{ep_stock},1,#{epc_child_id},#{ep_file_name})
+    </insert>
+
+</mapper>

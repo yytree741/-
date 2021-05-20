@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>易买网 - 首页</title>
+<script type="text/javascript" th:src="@{/scripts/function.js}" src="../../static/scripts/function.js"></script>
+<link rel="stylesheet" th:href="@{/css/style_front.css}" href="../../static/css/style_front.css" />
+<style type="text/css">
+	.item{width:120px;height:160px;overflow:hidden;float:left;margin:5px;text-align:center;}
+	.item2{width:100px;height:170px;overflow:hidden;float:left;margin:5px;text-align:center;}
+</style>
+</head>
+<body>
+<div id="header" class="wrap">
+	<div id="logo"><img src="../../static/images/logo.gif" th:src="@{/images/logo.gif}" /></div>
+	<div class="help">
+		<p style="font-size: 13px;color: brown; font-weight: bold" th:if="${user}==null" th:text="未登录"></p>
+		<p style="font-size: 13px;color: brown; font-weight: bold" th:if="${user}!=null" th:text="${user}+已登录"></p>
+		<a href="#" class="shopping">购物车</a>
+		<a href="../login.html" th:href="@{/user/login.html}">登录</a>
+		<a href="../register.html" th:href="@{/user/register.html}">注册</a>
+		<a href="../guestbook.html" th:href="@{/add.html}">留言</a>
+		<a href="#" th:href="@{/logout.html}">注销</a>
+	</div>
+
+	<div class="navbar">
+		<ul class="clearfix">
+			<li class="current"><a href="#">首页</a></li>
+			<li><a href="#">图书</a></li>
+			<li><a href="#">百货</a></li>
+			<li><a href="#">品牌</a></li>
+			<li><a href="#">促销</a></li>
+		</ul>
+	</div>
+</div>
+<div id="childNav">
+	<div class="wrap">
+		<ul class="clearfix">
+			<li class="first"><a href="#">音乐</a></li>
+			<li><a href="#">影视</a></li>
+			<li><a href="#">少儿</a></li>
+			<li><a href="#">动漫</a></li>
+			<li><a href="#">小说</a></li>
+			<li><a href="#">外语</a></li>
+			<li><a href="#">数码相机</a></li>
+			<li><a href="#">笔记本</a></li>
+			<li><a href="#">羽绒服</a></li>
+			<li><a href="#">秋冬靴</a></li>
+			<li><a href="#">运动鞋</a></li>
+			<li><a href="#">美容护肤</a></li>
+			<li><a href="#">家纺用品</a></li>
+			<li><a href="#">婴幼奶粉</a></li>
+			<li><a href="#">饰品</a></li>
+			<li class="last"><a href="#">Investor Relations</a></li>
+		</ul>
+	</div>
+</div>
+<div id="main" class="wrap">
+	<div class="lefter">
+		<div class="box">
+			<h2>商品分类</h2>
+			<dl th:each="fproca,status: ${page_procate.list}">
+				<dd><a th:text="${fproca.epc_name}" th:href="@{/products/list}">图书音像</a></dd>
+			</dl>
+		</div>
+		<div class="spacer"></div>
+		<div class="last-view">
+			<h2>最近浏览</h2>
+			<div class="layui-form" th:each="product,status: ${recentList}">
+				<div class="item3">
+					<img style="width: 56px; height:56px; margin:1px" th:src="@{${product.ep_file_name}}"/>
+					<a class="font" href="#" th:href="@{/view.html(id=${product.id})}" th:text="${product.ep_name}"></a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="main">
+		<div class="price-off">
+			<h2>今日特价</h2>
+			<div class="layui-form" th:each="product,status: ${page_product.list}">
+				<div class="item">
+					<img style="width: 110px; height:90px; margin:10px 10px 5px 1px" th:src="@{${product.ep_file_name}}"></img>
+					<p class="font"><a href="#" th:href="@{/view.html(id=${product.id})}" th:text="${product.ep_name}"></a></p>
+					<p style="color: red; font-size: 20px;">￥<span th:text="${product.ep_price}"/></p>
+				</div>
+			</div>
+		</div>
+		<div class="side">
+			<div class="news-list">
+				<h4>最新公告</h4>
+				<ul th:each="yy,status: ${page_news.list}">
+					<a href="#" th:href="@{/find/news(id=${yy.id})}">
+						<li th:text="${yy.en_title}">紧跟时代潮流，学习网上购物</li>
+					</a>
+				</ul>
+			</div>
+			<div class="spacer"></div>
+			<!-- th:each="xx,status: ${page_news.list}" 中的第一个xx可以随便取，只是一个类名  -->
+			<div class="news-list">
+				<h4>新闻动态</h4>
+				<ul th:each="yy,status: ${page_news.list}">
+					<a href="#" th:href="@{/find/news(id=${yy.id})}">
+					<li th:text="${yy.en_title}">紧跟时代潮流，学习网上购物</li>
+					</a>
+				</ul>
+			</div>
+		</div>
+		<div class="spacer clear"></div>
+		<div class="hot">
+			<h2>热卖推荐</h2>
+			<div class="layui-form" th:each="product,status: ${page_product.list}">
+				<div class="item2">
+					<img style="width: 120px; height:100px; margin:10px 25px 5px 10px" th:src="@{${product.ep_file_name}}"/>
+					<p class="font"><a href="#" th:href="@{/view.html(id=${product.id})}" th:text="${product.ep_name}"></a></p>
+					<p style="color: red; font-size: 20px;">￥<span th:text="${product.ep_price}"/></p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="clear"></div>
+</div>
+<div id="footer">
+	Copyright &copy; 2013 易买网 All Rights Reserved. 川ICP证1000001号
+</div>
+</body>
+</html>

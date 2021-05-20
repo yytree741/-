@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ied.easy.mapper.NewsMapper">
+    <sql id="field">
+        a.id,
+        a.en_title,
+        a.en_content,
+        a.en_create_time
+    </sql>
+    <sql id="join">
+
+    </sql>
+    <select id="get" parameterType="Integer" resultType="ied.easy.bean.News">
+        SELECT <include refid="field"/>
+        FROM easybuy_news a
+        <include refid="join"/>
+        WHERE id = #{id}
+    </select>
+
+    <select id="count" parameterType="ied.easy.bean.News" resultType="Integer">
+        SELECT COUNT(*)
+        FROM easybuy_news a
+        <include refid="join"/>
+        <where>
+
+        </where>
+    </select>
+    <select id="findPage" parameterType="ied.easy.bean.Page" resultType="ied.easy.bean.News">
+        SELECT <include refid="field"/>
+        FROM easybuy_news a
+        <include refid="join"/>
+        <where>
+
+        </where>
+        <if test="offset != null">
+            limit #{offset},#{pageSize}
+        </if>
+    </select>
+    <!--删除新闻SQL-->
+    <delete id="delete" parameterType="Integer">
+        DELETE FROM easybuy_news WHERE id = #{id}
+    </delete>
+
+    <!-- 添加新闻 -->
+    <insert id="insert" parameterType="ied.easy.bean.News">
+        INSERT  INTO easybuy_news
+        (en_title,en_content,en_create_time)
+        VALUES(#{en_title},#{en_content},#{en_create_time})
+    </insert>
+    
+    <update id="update" parameterType="ied.easy.bean.News">
+            UPDATE easybuy_news
+            <set>
+                <if test="en_title">
+                    en_title = #{en_title},
+                </if>
+                <if test="en_content">
+                    en_content = #{en_content},
+                </if>
+                <if test="en_create_time">
+                    en_create_time = #{en_create_time},
+                </if>
+            </set>
+            where id = #{id}
+    </update>
+    
+</mapper>

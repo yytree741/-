@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>易买网 - 首页</title>
+	<script type="text/javascript" th:src="@{/scripts/function.js}" src="../../static/scripts/function.js"></script>
+	<link rel="stylesheet" th:href="@{/css/style_front.css}" href="../../static/css/style_front.css" />
+	<!--购物车功能css-->
+	<link rel="stylesheet" type="text/css" href="../../static/jPayPalCart/jPayPalCart.css" th:href="@{/jPayPalCart/jPayPalCart.css}"/>
+	<!--购物车功能js-->
+	<script type="text/javascript" src="../../static/jPayPalCart/jPayPalCart.js" th:src="@{/jPayPalCart/jPayPalCart.js}"/>
+
+	<script th:src="@{/js/jquery-3.2.0.min.js}" src="../../static/js/jquery-3.2.0.min.js"></script>
+</head>
+<body>
+<div id="header" class="wrap">
+	<div id="logo"><img src="images/logo.gif" th:src="@{/images/logo.gif}" /></div>
+	<div class="help">
+		<a href="#" class="shopping">购物车</a>
+		<a href="../login.html" th:href="@{/user/login.html}">登录</a>
+		<a href="../register.html" th:href="@{/user/register.html}">注册</a>
+		<a href="guestbook.html" >留言</a></div>
+	<div class="navbar">
+		<ul class="clearfix">
+			<li class="current"><a th:href="@{/index}">首页</a></li>
+			<li><a href="#">图书</a></li>
+			<li><a href="#">百货</a></li>
+			<li><a href="#">品牌</a></li>
+			<li><a href="#">促销</a></li>
+		</ul>
+	</div>
+</div>
+<div id="childNav">
+	<div class="wrap">
+		<ul class="clearfix">
+			<li class="first"><a href="#">音乐</a></li>
+			<li><a href="#">影视</a></li>
+			<li><a href="#">少儿</a></li>
+			<li><a href="#">动漫</a></li>
+			<li><a href="#">小说</a></li>
+			<li><a href="#">外语</a></li>
+			<li><a href="#">数码相机</a></li>
+			<li><a href="#">笔记本</a></li>
+			<li><a href="#">羽绒服</a></li>
+			<li><a href="#">秋冬靴</a></li>
+			<li><a href="#">运动鞋</a></li>
+			<li><a href="#">美容护肤</a></li>
+			<li><a href="#">家纺用品</a></li>
+			<li><a href="#">婴幼奶粉</a></li>
+			<li><a href="#">饰品</a></li>
+			<li class="last"><a href="#">Investor Relations</a></li>
+		</ul>
+	</div>
+</div>
+<div id="position" class="wrap">
+	您现在的位置：<a href="index.html">易买网</a> &gt; 购物车
+</div>
+<div class="wrap">
+	<div id="shopping">
+		<div class="layui-form">
+			<table class="layui-table" lay-even="" lay-skin="row">
+				<colgroup>
+					<col width="50" />
+					<col width="320" />
+					<col width="150" />
+					<col width="150" />
+					<col width="150" />
+					<col />
+				</colgroup>
+				<thead>
+				<tr>
+					<th><input type="checkbox" name="" lay-skin="primary" lay-filter="allChoose" /></th>
+					<th>商品名称</th>
+					<th>商品价格</th>
+					<th>购买数量</th>
+					<th>操作</th>
+				</tr>
+				</thead>
+				<tbody id="comment">
+				<tr th:each="product,status: ${cartList}">
+					<td><input type="checkbox" name="" lay-skin="primary"/></td>
+					<td>
+						<img src="../static/images/1.jpg" th:width="55px"
+							 th:height="55px" style="border: 1px solid gainsboro" th:src="@{${product.ep_file_name}}" />
+						&nbsp;&nbsp;
+						<a href="#" th:text="${product.ep_name}">画册</a>
+					</td>
+					<td th:text="${product.ep_price}" class="danjia">17</td>
+					<td class="number">
+						<a  class="J_jian" th:onclick="'jian('+${product.id}+');'">-</a>
+						<input class="num"  type="text" th:id="'goods_'+${product.id}" name="number" value="1" />
+						<a class="J_jia"  th:onclick="'jia('+${product.id}+');'">+</a>
+					</td>
+					<td class="delete"><a th:onclick="'shanchu('+${product.id}+');'">删除</a></td>
+				</tr>
+				<tr>
+					<td align="right" colspan="4">商品金额总计：￥<span class="zongjia"></span></td>
+				</tr>
+				</tbody>
+			</table>
+			<div class="button"><input type="submit" value="" /></div>
+		</div>
+		<script type="text/javascript" th:inline="javascript">
+			/*<![CDATA[*/
+			/*增加*/
+            function jia(id) {
+                var t = $('#goods_'+id);
+                t.val(parseInt(t.val())+1);
+                setTotal();
+            }
+
+			/*减少*/
+            function jian(id) {
+                var t = $('#goods_'+id);
+                if(parseInt(t.val())==0){
+                    t.val(parseInt(t.val())-1);
+                    t.val("0");
+                }else{
+                    t.val(parseInt(t.val())-1);
+                    setTotal();
+                }
+            }
+
+			/* 计算总价 */
+            function setTotal(){
+                var num = $(".num");   /* 列表有多少行 */
+                var danjia = $(".danjia");  /* 每一行物品的单价 */
+                var total = 0;
+                for(var i = 0 ;i<num.length;i++){
+                    total += num[i].value*danjia[i].innerHTML;
+                }
+                $(".zongjia").html(total);
+            }
+            setTotal();
+
+
+            function getCookie(name)
+            {
+                var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
+                if(arr=document.cookie.match(reg))
+                    return unescape(arr[2]);
+                else
+                    return null;
+            }
+
+            function shanchu(id)
+            {
+                var names = "CartProduct_"+id;
+                var exp = new Date();
+                exp.setTime(exp.getTime() - 1);
+                var cval=getCookie(names);
+                if(cval!=null)
+                    document.cookie= names + "="+cval+";expires="+exp.toGMTString();
+                window.location.reload();
+
+            }
+
+			/*删除*/
+			/*function shanchu(id) {
+			 $("#comment tr:gt(id)").remove();
+			 }*/
+
+			/*]]>*/
+		</script>
+
+		<!--<script type="text/javascript">
+                $(".delete").click(function(){
+                    $("#comment tr").remove();
+                });
+
+        </script>-->
+	</div>
+</div>
+<div id="footer">
+	Copyright &copy; 2013 易买网 All Rights Reserved. 川ICP证1000001号
+</div>
+</body>
+</html>

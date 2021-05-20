@@ -1,0 +1,21 @@
+.container{
+    height: 260px;
+    margin-top: 10%;
+    margin-right: 13%;
+    width: 650px;
+}
+.form-horizontal{
+    margin-top: 20px;
+    margin-left: 80px;
+}
+.title{
+    margin-left: 40%;
+}
+.span{
+    margin-left: 28%;
+    color: red;
+}
+body{
+    background-size: 100%;
+    background: url("../images/zhuce.jpg");
+}

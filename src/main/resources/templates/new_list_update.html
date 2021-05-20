@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <title>修改新闻</title>
+    <link rel="stylesheet" href="../static/layui/css/layui.css" th:href="@{/layui/css/layui.css}"/>
+    <style>
+        .container{
+            position: absolute;
+            margin-left: 400px;
+            margin-top: 50px;
+            width: 500px;
+            height:300px;
+            background-color: white;
+        }
+    </style>
+
+</head>
+<body>
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+    <legend>修改新闻</legend>
+</fieldset>
+<div class="container">
+    <form class="layui-form" th:action="@{/news/update}" method="post" role="form" th:object="${user}">
+        <div class="layui-form-item">
+            <label class="layui-form-label">新闻标题(*)</label>
+            <div class="layui-input-block">
+                <input type="hidden" th:value="${news.id}" name="id"/>
+                <input type="text" name="en_title" lay-verify="required" autocomplete="off" class="layui-input" th:value="${news.en_title}"  />
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">新闻内容</label>
+            <div class="layui-input-block">
+                <textarea name="en_content" class="layui-textarea" th:text="${news.en_content}"></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item" style="margin-left: 50px;">
+            <button class="layui-btn" style="margin-left: 60px" type="submit">修改</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>

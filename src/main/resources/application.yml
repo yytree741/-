@@ -1,0 +1,47 @@
+server:
+  port: 8080
+  tomcat:
+    uri-encoding: UTF-8
+    basedir: /usr/local/mysql/data
+    max-threads: 2000
+    min-spare-threads: 10
+    accesslog:
+      pattern: common
+      enabled: true
+      directory: ../logs
+      suffix: .log
+      prefix: access_log
+      request-attributes-enabled: true
+      rename-on-rotate: true
+logging:
+  level:
+    root: INFO
+    ied.houserent: DEBUG
+spring:
+  #数据库的配置
+    datasource:
+      driver-class-name: com.mysql.jdbc.Driver
+      type: com.zaxxer.hikari.HikariDataSource
+      url: jdbc:mysql://127.0.0.1:3306/easybuy?useSSL=false&characterEncoding=utf-8
+      username: root
+      password: root1234
+      hikari:
+        minimum-idle: 10
+        maximum-pool-size: 10
+        idle-timeout: 600000
+        max-lifetime: 1800000
+        connection-timeout: 30000
+        connection-test-query: SELECT 1
+        pool-name: houserent-pool
+#SpringMVC的配置
+    mvc:
+      servlet:
+        load-on-startup: 1
+    thymeleaf:
+      cache: false
+    cache:                 #缓存配置
+      ehcache:
+        config: ehcache.xml
+#mybatis的配置
+mybatis:
+  mapper-locations: classpath:/mappings/**/*.xml

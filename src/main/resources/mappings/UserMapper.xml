@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ied.easy.mapper.UserMapper">
+    <sql id="field">
+          a.id,
+          a.eu_user_id,
+          a.eu_user_name,
+          a.eu_password,
+          a.eu_sex,
+          a.eu_birthday,
+          a.eu_identity_code,
+          a.eu_email,
+          a.eu_mobile,
+          a.eu_address,
+          a.eu_status
+    </sql>
+    <sql id="join">
+
+    </sql>
+
+    <!-- 登录SQL -->
+    <select id="findList" parameterType="ied.easy.bean.User" resultType="ied.easy.bean.User">
+            SELECT <include refid="field"/>
+            FROM easybuy_user a
+            <where>
+                <if test="eu_user_id != null">
+                      and a.eu_user_id = #{eu_user_id}
+                </if>
+                <if test="eu_user_name != null">
+                      and a.eu_user_name = #{eu_user_name}
+                </if>
+                <if test="eu_password != null">
+                    and a.eu_password = #{eu_password}
+                </if>
+                <if test="eu_sex != null">
+                    and a.eu_sex = #{eu_sex}
+                </if>
+                <if test="eu_birthday != null">
+                    and a.eu_birthday = #{eu_birthday}
+                </if>
+                <if test="eu_identity_code != null">
+                    and a.eu_identity_code = #{eu_identity_code}
+                </if>
+                <if test="eu_email != null">
+                    and a.eu_email = #{eu_email}
+                </if>
+                <if test="eu_mobile != null">
+                    and a.eu_mobile = #{eu_mobile}
+                </if>
+                <if test="eu_address != null">
+                    and a.eu_address = #{eu_address}
+                </if>
+                <if test="eu_mobile != null">
+                    and a.eu_status = #{eu_status}
+                </if>
+            </where>
+    </select>
+
+    <!-- 注册SQL -->
+    <insert id="insert" parameterType="ied.easy.bean.User">
+        INSERT INTO easybuy_user
+        (eu_user_id,eu_user_name,eu_password,eu_sex,eu_birthday,eu_identity_code,eu_email,eu_mobile,eu_address,eu_status)
+        VALUES (#{eu_user_id},#{eu_user_name},#{eu_password},#{eu_sex},#{eu_birthday},#{eu_identity_code},#{eu_email},#{eu_mobile},#{eu_address},#{eu_status})
+    </insert>
+
+    <select id="get" parameterType="Integer" resultType="ied.easy.bean.User">
+        SELECT <include refid="field"/>
+        FROM easybuy_user a
+        <include refid="join"/>
+        where a.id = #{id}
+    </select>
+
+    <select id="count" parameterType="ied.easy.bean.User" resultType="Integer">
+        SELECT  count(*)
+        FROM easybuy_user a
+        <include refid="join"/>
+        <where>
+
+        </where>
+    </select>
+
+    <select id="findPage" parameterType="ied.easy.bean.Page" resultType="ied.easy.bean.User">
+        SELECT <include refid="field"/>
+        FROM easybuy_user a
+        <include refid="join"/>
+        <where>
+
+        </where>
+        <if test="offset != null">
+            limit #{offset},#{pageSize}
+        </if>
+    </select>
+
+    <!--删除SQL-->
+    <delete id="delete" parameterType="Integer">
+        DELETE FROM easybuy_user WHERE id = #{id}
+    </delete>
+
+    <update id="update" parameterType="ied.easy.bean.User">
+        UPDATE easybuy_user
+        <set>
+            <if test="eu_user_id">
+                eu_user_id = #{eu_user_id},
+            </if>
+            <if test="eu_user_name">
+                eu_user_name = #{eu_user_name},
+            </if>
+            <if test="eu_password">
+                eu_password = #{eu_password},
+            </if>
+            <if test="eu_sex">
+                eu_sex = #{eu_sex},
+            </if>
+            <if test="eu_birthday">
+                eu_birthday = #{eu_birthday},
+            </if>
+            <if test="eu_identity_code">
+                eu_identity_code = #{eu_identity_code},
+            </if>
+            <if test="eu_email">
+                eu_email = #{eu_email},
+            </if>
+            <if test="eu_mobile">
+                eu_mobile = #{eu_mobile},
+            </if>
+            <if test="eu_address">
+                eu_address = #{eu_address},
+            </if>
+            <if test="eu_status">
+                eu_status = #{eu_status},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+</mapper>

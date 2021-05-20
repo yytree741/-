@@ -1,0 +1,14 @@
+.header .layui-nav{position: absolute; right: 0; top: 0; padding: 0; background: none;}
+.header .layui-nav .layui-nav-item{margin: 0 20px; }
+.header .layui-nav .layui-nav-item[mobile]{display: none;}
+
+.header-demo{height: 60px; border-bottom: none;}
+.header-demo .logo{left: 40px;}
+.header-demo .layui-nav{top: 0;}
+.header-demo .layui-nav .layui-nav-item{margin: 0 10px;}
+
+.header-demo .layui-nav .layui-this a{padding: 0 30px;}
+
+.layui-nav-item a cite {
+    padding: 0 10px;
+}

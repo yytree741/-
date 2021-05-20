@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ied.easy.mapper.OrderMapper">
+    <sql id="field">
+        a.id,
+        a.eo_user_id,
+        a.eo_user_name,
+        a.eo_user_address,
+        a.eo_create_time,
+        a.eo_cost,
+        a.eo_status,
+        a.eo_type
+    </sql>
+    <sql id="join">
+
+    </sql>
+
+    <select id="findPage" parameterType="ied.easy.bean.Page" resultType="ied.easy.bean.Order">
+          SELECT <include refid="field"/>
+          FROM easybuy_order a
+          <include refid="join"/>
+          <where>
+              <if test="o!=null and o.eo_user_name != null and o.eo_user_name != ''">
+                  and eo_user_name = #{o.eo_user_name}
+              </if>
+              <if test="o!=null and o.eo_user_id != null">
+                  and eo_user_id = #{o.eo_user_id}
+              </if>
+          </where>
+          <if test="offset != null">
+              limit #{offset},#{pageSize}
+          </if>
+    </select>
+
+
+    <select id="get" parameterType="Integer" resultType="ied.easy.bean.Order">
+          SELECT <include refid="field"/>
+          FROM easybuy_order a
+          <include refid="join"/>
+          WHERE id = #{id}
+    </select>
+
+    <select id="count" parameterType="ied.easy.bean.Order" resultType="Integer">
+          SELECT COUNT(*)
+          FROM easybuy_order a
+          <include refid="join"/>
+          <where>
+
+          </where>
+    </select>
+
+
+    <delete id="delete" parameterType="Integer">
+        DELETE FROM easybuy_order WHERE id=#{id}
+    </delete>
+    
+    <update id="update" parameterType="ied.easy.bean.Order">
+            update easybuy_order
+            <set>
+                <if test="eo_user_id">
+                    eo_user_id = #{eo_user_id},
+                </if>
+                <if test="eo_user_name">
+                    eo_user_name = #{eo_user_name},
+                </if>
+                <if test="eo_user_address">
+                    eo_user_address = #{eo_user_address},
+                </if>
+                <if test="eo_create_time">
+                    eo_create_time = #{eo_create_time},
+                </if>
+                <if test="eo_cost">
+                    eo_cost = #{eo_cost},
+                </if>
+                <if test="eo_status">
+                    eo_status = #{eo_status},
+                </if>
+                <if test="eo_type">
+                    eo_type = #{eo_type}
+                </if>
+            </set>
+            where id = #{id}
+    </update>
+
+</mapper>

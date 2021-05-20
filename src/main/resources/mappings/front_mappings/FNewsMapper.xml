@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ied.easy.mapper.front_mapper.FNewsMapper">
+    <sql id="field">
+        a.id,
+        a.en_title,
+        a.en_content,
+        a.en_create_time
+    </sql>
+    <sql id="join">
+
+    </sql>
+    <select id="findPage" parameterType="ied.easy.bean.Page" resultType="ied.easy.bean.News">
+        SELECT <include refid="field"/>
+        FROM easybuy_news a
+        <include refid="join"/>
+        <where>
+
+        </where>
+        <if test="offset != null">
+            limit #{offset},#{pageSize}
+        </if>
+    </select>
+
+    <select id="get" parameterType="Integer" resultType="ied.easy.bean.News">
+          SELECT <include refid="field"/>
+          FROM easybuy_news a
+          <include refid="join"/>
+          WHERE id = #{id}
+    </select>
+    
+    <select id="count" parameterType="ied.easy.bean.News" resultType="Integer">
+        SELECT count(*)
+        FROM easybuy_news a
+        <include refid="join"/>
+        <where>
+
+        </where>
+    </select>
+
+</mapper>

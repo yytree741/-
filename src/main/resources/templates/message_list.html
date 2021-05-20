@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <title>用户留言表</title>
+    <meta name="renderer" content="webkit" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}" href="../static/layui/css/layui.css"
+          media="all" />
+    <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
+    <script type="text/javascript" th:inline="javascript">
+        window.onload = function(){
+            bindSelector("s-price-l", "s-price-o", "s-position-o", "s-style-o", "s-area-l", "s-area-o",
+                "s-update-o", "s-update-l");
+        }
+
+        function toUrl(url){
+            window.location.href = url;
+            return;
+        }
+    </script>
+</head>
+<body style="padding: 10px;">
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+    <legend>留言管理</legend>
+</fieldset>
+<div class="layui-form">
+    <table class="layui-table" lay-even="" lay-skin="row">
+        <colgroup>
+            <col width="30" />
+            <col width="60" />
+            <col width="60" />
+            <col width="180" />
+            <col width="50" />
+            <col width="100" />
+            <col />
+        </colgroup>
+        <thead>
+        <tr>
+            <th><input type="checkbox" name="" lay-skin="primary" lay-filter="allChoose" /></th>
+            <th>编号</th>
+            <th>姓名</th>
+            <th>留言内容</th>
+            <th>状态</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="comment,status: ${page.list}">
+            <td><input type="checkbox" name="" lay-skin="primary"/></td>
+            <td th:text="${comment.id}">680</td>
+            <td th:text="${comment.ec_nick_name}">无极</td>
+            <td th:text="${comment.ec_content}">佳能什么时候能够发货？</td>
+            <td th:text="${comment.ec_state}">已回复</td>
+            <td>
+                <a class="layui-btn layui-btn-small layui-btn-normal" th:href="@{/comment/update.html(id=${comment.id})}" href="message_list_update.html">回复</a>
+                <a class="layui-btn layui-btn-small layui-btn-danger" th:href="@{/comment/delete(id=${comment.id})}">删除</a>
+            </td>
+            <!--onclick="toUrl('pet/delete?id=${pet.id}')"-->
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<script th:src="@{/layui/layui.js}" src="../static/layui/layui.js" charset="utf-8"></script>
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+<script>
+    layui.use('form', function(){
+        var $ = layui.jquery, form = layui.form();
+
+        //全选
+        form.on('checkbox(allChoose)', function(data){
+            var child = $(data.elem).parents('table').find('tbody input[type="checkbox"]');
+            child.each(function(index, item){
+                item.checked = data.elem.checked;
+            });
+            form.render('checkbox');
+        });
+    });
+</script>
+
+</body>
+</html>
+
+

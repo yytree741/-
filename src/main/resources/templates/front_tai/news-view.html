@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>易买网 - 首页</title>
+	<script type="text/javascript" th:src="@{/scripts/function.js}" src="../../static/scripts/function.js"></script>
+<link rel="stylesheet" th:href="@{/css/style_front.css}" href="../../static/css/style_front.css" />
+</head>
+<body>
+<div id="header" class="wrap">
+	<div id="logo"><img src="../../static/images/logo.gif" th:src="@{/images/logo.gif}" /></div>
+	<div class="help">
+		<p style="font-size: 13px;color: brown; font-weight: bold" th:if="${user}==null" th:text="未登录"></p>
+		<p style="font-size: 13px;color: brown; font-weight: bold" th:if="${user}!=null" th:text="${user}+已登录"></p>
+		<a href="#" class="shopping">购物车</a>
+		<a href="../login.html" th:href="@{/user/login.html}">登录</a>
+		<a href="../register.html" th:href="@{/user/register.html}">注册</a>
+		<a href="../message_list.html">留言</a>
+
+	</div>
+	<div class="navbar">
+		<ul class="clearfix">
+			<li class="current"><a th:href="@{/index}">首页</a></li>
+			<li><a href="#">图书</a></li>
+			<li><a href="#">百货</a></li>
+			<li><a href="#">品牌</a></li>
+			<li><a href="#">促销</a></li>
+		</ul>
+	</div>
+</div>
+<div id="childNav">
+	<div class="wrap">
+		<ul class="clearfix">
+			<li class="first"><a href="#">音乐</a></li>
+			<li><a href="#">影视</a></li>
+			<li><a href="#">少儿</a></li>
+			<li><a href="#">动漫</a></li>
+			<li><a href="#">小说</a></li>
+			<li><a href="#">外语</a></li>
+			<li><a href="#">数码相机</a></li>
+			<li><a href="#">笔记本</a></li>
+			<li><a href="#">羽绒服</a></li>
+			<li><a href="#">秋冬靴</a></li>
+			<li><a href="#">运动鞋</a></li>
+			<li><a href="#">美容护肤</a></li>
+			<li><a href="#">家纺用品</a></li>
+			<li><a href="#">婴幼奶粉</a></li>
+			<li><a href="#">饰品</a></li>
+			<li class="last"><a href="#">Investor Relations</a></li>
+		</ul>
+	</div>
+</div>
+<div id="position" class="wrap">
+	您现在的位置：<a href="index.html">易买网</a> &gt; 阅读新闻
+</div>
+<div id="main" class="wrap">
+	<div class="left-side">
+		<div class="news-list">
+		  <h4>最新公告</h4>
+          <ul>
+            <li>会员日即将来临</li>
+            <li>乐扣打折活动进行中</li>
+            <li>极速联想火爆销售</li>
+            <li>巴黎欧莱雅新品上柜</li>
+            <li>清凉一夏</li>
+            <li>美丽绽放</li>
+            <li>四合一清仓大甩卖</li>
+          </ul>
+        </div>
+		<div class="spacer"></div>
+		<div class="news-list">
+		  <h4>新闻动态</h4>
+			<ul th:each="xx,status: ${page_news.list}">
+				<a href="#" th:href="@{/find/news}">
+					<li th:text="${xx.en_title}">紧跟时代潮流，学习网上购物</li>
+				</a>
+			</ul>
+        </div>
+	</div>
+	<div id="news" class="right-main" >
+		<h1 th:text="${findnews.en_title}">会员日即将来临，万众瞩目，一起放肆嗨！！！</h1>
+		<div class="content">
+		  <p><strong>活动详情：</strong></p>
+			<p th:text="${findnews.en_content}"></p>
+	    </div>
+	</div>
+	<div class="clear"></div>
+</div>
+<div id="footer">
+	Copyright &copy; 2013 易买网 All Rights Reserved. 川ICP证1000001号
+</div>
+</body>
+</html>

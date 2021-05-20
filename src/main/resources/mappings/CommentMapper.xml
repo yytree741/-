@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ied.easy.mapper.CommentMapper">
+    <sql id="field">
+        a.id,
+        a.ec_reply,
+        a.ec_content,
+        a.ec_create_time,
+        a.ec_reply_time,
+        a.ec_nick_name,
+        a.ec_state
+    </sql>
+    <sql id="join">
+        <!--填写多表查询时关联的数据库-->
+    </sql>
+
+    <!--根据用户ID查询对应的留言信息-->
+    <select id="get" parameterType="Integer" resultType="ied.easy.bean.Comment">
+        select <include refid="field"/>
+        from easybuy_comment a <include refid="join"/>
+        where id=#{id}
+    </select>
+
+    <!--统计留言的总数-->
+    <select id="count" parameterType="ied.easy.bean.Comment" resultType="Integer">
+        select count(*) from easybuy_comment a <include refid="join"/>
+        <where>
+
+        </where>
+    </select>
+
+    <select id="findPage" parameterType="ied.easy.bean.Page" resultType="ied.easy.bean.Comment">
+        select <include refid="field"/> from easybuy_comment a
+        <include refid="join"/>
+        <where>
+
+        </where>
+        <if test="offset !=null">
+            <!--每页显示二十条记录-->
+            limit #{offset},#{pageSize}
+        </if>
+    </select>
+
+    <!--根据主键删除留言信息-->
+    <delete id="delete" parameterType="Integer">
+        delete  from easybuy_comment where id=#{id}
+    </delete>
+
+    <!--根据用户ID更新对应的留言信息-->
+    <update id="update" parameterType="ied.easy.bean.Comment">
+        update easybuy_comment
+        <set>
+          <if test="ec_reply">
+              ec_reply=#{ec_reply},
+          </if>
+          <if test="ec_content">
+              ec_content=#{ec_content},
+          </if>
+          <if test="ec_create_time">
+              ec_create_time=#{ec_create_time},
+          </if>
+          <if test="ec_reply_time">
+              ec_reply_time=#{ec_reply_time},
+          </if>
+          <if test="ec_nick_name">
+              ec_nick_name=#{ec_nick_name},
+          </if>
+          <if test="ec_state">
+              ec_state=#{ec_state},
+          </if>
+
+        </set>
+        where id=#{id}
+    </update>
+
+
+</mapper>

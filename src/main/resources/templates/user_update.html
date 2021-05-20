@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <title>修改用户信息</title>
+    <link rel="stylesheet" href="../static/layui/css/layui.css" th:href="@{/layui/css/layui.css}"/>
+    <style>
+        .container{
+            //background-color: #1f87dc;
+            align-content: center;
+            width: 600px;
+            height: auto;
+            margin-left: 250px;
+        }
+    </style>
+
+</head>
+<body>
+    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+        <legend>用户管理</legend>
+    </fieldset>
+    <div class="container">
+        <form class="layui-form" th:action="@{/user/update}" method="post" role="form">
+            <div class="layui-form-item">
+                <label class="layui-form-label" >用户名(*)</label>
+                <div class="layui-input-block">
+                    <input type="hidden" th:value="${user.id}" name="id"/>
+                    <input type="text" name="eu_user_id" lay-verify="title" autocomplete="off" th:value="${user.eu_user_id}" class="layui-input" />
+
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">真实姓名(*)</label>
+                <div class="layui-input-block">
+                    <input type="text" name="eu_user_name" lay-verify="required"  autocomplete="off" th:value="${user.eu_user_name}" class="layui-input"/>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">登录密码(*)</label>
+                <div class="layui-input-block">
+                    <input type="password" name="eu_password" lay-verify="title" autocomplete="off" th:value="${user.eu_password}" class="layui-input" />
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">确认密码(*)</label>
+                <div class="layui-input-block">
+                    <input type="password" name="repassword" lay-verify="required"  autocomplete="off" class="layui-input"  />
+                </div>
+                <div style="color: red;" th:text="${message}"><span style="margin-left: 120px">两次输入密码不一致</span></div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">性别(*)</label>
+                <div class="layui-input-block">
+                    <input type="radio" name="eu_sex" value="1"  title="男" checked="" />
+                    <input type="radio" name="eu_sex" value="0" title="女" />
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">出生日期</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="birthday" id="date" lay-verify="date" th:value="${user.eu_birthday}"  autocomplete="off" class="layui-input" onclick="layui.laydate({elem: this})"  />
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">身份证</label>
+                <div class="layui-input-block">
+                    <input type="text" name="eu_identity_code" lay-verify="identity" th:value="${user.eu_identity_code}" autocomplete="off" class="layui-input" />
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">电子邮件</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="eu_email" lay-verify="email" autocomplete="off" th:value="${user.eu_email}" class="layui-input" />
+                </div>
+            </div>
+            <div class="layui-form-item">
+                    <label class="layui-form-label">手机</label>
+                    <div class="layui-input-inline">
+                        <input type="tel" name="eu_mobile" lay-verify="phone" autocomplete="off" th:value="${user.eu_mobile}"  class="layui-input" />
+                    </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">地址(*)</label>
+                <div class="layui-input-block">
+                    <input type="text" name="eu_address" lay-verify="title" autocomplete="off" th:value="${user.eu_address}" class="layui-input" />
+                </div>
+            </div>
+            <div class="layui-form-item" style="margin-left: 50px;">
+                <button class="layui-btn" type="submit" lay-filter="user_update">更新</button>
+            </div>
+
+        </form>
+    </div>
+
+</body>
+<script src="../static/layui/layui.js" th:src="@{/layui/layui.js}" charset="utf-8"></script>
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+<script>
+    layui.use(['form', 'layedit', 'laydate'], function(){
+        var form = layui.form()
+            ,layer = layui.layer
+            ,layedit = layui.layedit
+            ,laydate = layui.laydate;
+
+        //创建一个编辑器
+        var editIndex = layedit.build('LAY_demo_editor');
+
+
+
+        //监听指定开关
+        form.on('switch(switchTest)', function(data){
+            layer.msg('开关checked：'+ (this.checked ? 'true' : 'false'), {
+                offset: '6px'
+            });
+            layer.tips('温馨提示：请注意开关状态的文字可以随意定义，而不仅仅是ON|OFF', data.othis)
+        });
+
+        //监听提交
+        form.on('submit(user_update)', function(data){
+            layer.alert(JSON.stringify(data.field), {
+                title: '最终的提交信息'
+            })
+            return false;
+        });
+
+
+    });
+</script>
+</html>
